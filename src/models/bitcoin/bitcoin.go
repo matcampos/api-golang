@@ -3,10 +3,21 @@ package bitcoinModel
 import "time"
 
 type Bitcoin struct {
+	Id            int
+	Quantity      int
+	Total         float64
+	Date          time.Time
+	Type          string
+	Name          string
+	Person_id     int
+	ValidatedDate string
+}
+
+type BitcoinDateReport struct {
 	Id        int
 	Quantity  int
 	Total     float64
-	Date      time.Time
+	Date      string
 	Type      string
 	Name      string
 	Person_id int

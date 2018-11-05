@@ -40,7 +40,6 @@ func GetByUser() []bitcoinModel.BitCoinReportOneArray {
 		err = rows.Scan(&bitcoin.Total, &bitcoin.Quantity, &bitcoin.Person_id, &bitcoin.Name)
 		e.CheckErr(err)
 
-		println(bitcoin.Total)
 		bitcoins = append(bitcoins, bitcoin)
 	}
 	bitcoinsArr := []bitcoinModel.BitCoinReportOneArray{}
@@ -71,23 +70,23 @@ func GetByUser() []bitcoinModel.BitCoinReportOneArray {
 	return bitcoinsArr
 }
 
-func GetByDay(msg string) []bitcoinModel.BitCoinReportOneArray {
-	// db := con.Connect()
+func GetByDay(day1 string, day2 string) []bitcoinModel.BitcoinDateReport {
+	db := con.Connect()
 
-	// insert
-	// rows, err := db.Query("select * from bitcoin where date between ? and ?", v1, v2)
-	// e.CheckErr(err)
-	// i := 0
-	bitcoins := []bitcoinModel.BitCoinReportOneArray{}
-	// for rows.Next() {
-	// 	i++
-	// 	bitcoin := bitcoinModel.BitCoinReportOne{}
-	// 	err = rows.Scan(&bitcoin.Total, &bitcoin.Quantity, &bitcoin.Person_id, &bitcoin.Name)
-	// 	e.CheckErr(err)
+	var d1 = day1
 
-	// 	println(bitcoin.Total)
-	// 	bitcoins[bitcoin.Person_id].Bitcoins = append(bitcoins[bitcoin.Person_id].Bitcoins, bitcoin)
-	// }
-	// db.Close()
+	var d2 = day2
+	rows, err := db.Query("select * from bitcoin where date between ? and ?", d1, d2)
+	e.CheckErr(err)
+	i := 0
+	bitcoins := []bitcoinModel.BitcoinDateReport{}
+	for rows.Next() {
+		i++
+		bitcoin := bitcoinModel.BitcoinDateReport{}
+		err = rows.Scan(&bitcoin.Id, &bitcoin.Quantity, &bitcoin.Total, &bitcoin.Date, &bitcoin.Type, &bitcoin.Person_id)
+		e.CheckErr(err)
+		bitcoins = append(bitcoins, bitcoin)
+	}
+	db.Close()
 	return bitcoins
 }

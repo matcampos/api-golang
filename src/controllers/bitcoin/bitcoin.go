@@ -9,7 +9,6 @@ import (
 	bitcoinModel "../../models/bitcoin"
 	success "../../models/success"
 	bitcoinRepository "../../repository/bitcoin"
-	"github.com/gorilla/mux"
 )
 
 func CreatePurchase(w http.ResponseWriter, r *http.Request) {
@@ -65,8 +64,15 @@ func GetByUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetByDay(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	message := vars["day"]
-	println(message)
-	jsonResponse.ToJson(w, []byte(message))
+	vars := r.URL.Query()
+	firstday := vars.Get("initialday")
+	secondday := vars.Get("secondday")
+
+	bitcoins := bitcoinRepository.GetByDay(firstday, secondday)
+
+	bitcoinsJson, err := json.Marshal(bitcoins)
+	if err != nil {
+		panic(err)
+	}
+	jsonResponse.ToJson(w, bitcoinsJson)
 }
