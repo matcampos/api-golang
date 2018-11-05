@@ -5,11 +5,14 @@ import (
 	"net/http"
 
 	jsonResponse "../../helpers/json-response"
+	"../../models/apiBitcoin"
 	bitcoinModel "../../models/bitcoin"
+	success "../../models/success"
 	bitcoinRepository "../../repository/bitcoin"
+	"github.com/gorilla/mux"
 )
 
-func Create(w http.ResponseWriter, r *http.Request) {
+func CreatePurchase(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	b := bitcoinModel.Bitcoin{}
 	err := decoder.Decode(&b)
@@ -17,22 +20,53 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-
-	bitcoinJson, err := json.Marshal(b)
+	b.Total = float64(b.Quantity) * apiBitcoin.DecodeData()
+	b.Type = "Purchase"
+	s := success.Success{}
+	s.Success = true
+	successJson, err := json.Marshal(s)
 
 	if err != nil {
 		panic(err)
 	}
 	bitcoinRepository.Create(b)
-	jsonResponse.ToJson(w, bitcoinJson)
+	jsonResponse.ToJson(w, successJson)
 }
 
-// func GetAll(w http.ResponseWriter, r *http.Request) {
-// 	users := userRepository.GetAll()
+func CreateSale(w http.ResponseWriter, r *http.Request) {
+	decoder := json.NewDecoder(r.Body)
+	b := bitcoinModel.Bitcoin{}
+	err := decoder.Decode(&b)
 
-// 	usersJson, err := json.Marshal(users)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	jsonResponse.ToJson(w, usersJson)
-// }
+	if err != nil {
+		panic(err)
+	}
+	b.Total = float64(b.Quantity) * apiBitcoin.DecodeData()
+	b.Type = "Sale"
+	s := success.Success{}
+	s.Success = true
+	successJson, err := json.Marshal(s)
+
+	if err != nil {
+		panic(err)
+	}
+	bitcoinRepository.Create(b)
+	jsonResponse.ToJson(w, successJson)
+}
+
+func GetByUser(w http.ResponseWriter, r *http.Request) {
+	bitcoins := bitcoinRepository.GetByUser()
+
+	bitcoinsJson, err := json.Marshal(bitcoins)
+	if err != nil {
+		panic(err)
+	}
+	jsonResponse.ToJson(w, bitcoinsJson)
+}
+
+func GetByDay(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	message := vars["day"]
+	println(message)
+	jsonResponse.ToJson(w, []byte(message))
+}

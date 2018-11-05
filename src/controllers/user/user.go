@@ -9,6 +9,10 @@ import (
 	userRepository "../../repository/user"
 )
 
+type Bitcoin struct {
+	Data string `json:"name"`
+}
+
 func Create(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	u := userModel.User{}
