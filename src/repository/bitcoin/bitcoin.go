@@ -30,7 +30,7 @@ func Create(b bitcoinModel.Bitcoin) bitcoinModel.Bitcoin {
 func GetByUser() []bitcoinModel.BitCoinReportOneArray {
 	db := con.Connect()
 	// insert
-	rows, err := db.Query("select b.total, b.quantity, b.person_id, p.name from bitcoin b inner join person p where p.id = b.person_id order by b.person_id")
+	rows, err := db.Query("select b.total, b.quantity, b.person_id, p.name from bitcoin b inner join user p where p.id = b.person_id order by b.person_id")
 	e.CheckErr(err)
 	i := 0
 	bitcoins := []bitcoinModel.BitCoinReportOne{}
