@@ -7,4 +7,8 @@
 
 # 4) go get github.com/gorilla/mux
 
+# 5) create database from sql files in ./sql
+
+# 6) the postman collection export is located in ./postman_routes
+
 # run api: go run main.go
