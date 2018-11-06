@@ -12,7 +12,6 @@ func Routes() *mux.Router {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/api/users", userController.Create).Methods("POST")
-	router.HandleFunc("/api/users", authHelper.Authenticate(userController.GetAll)).Methods("GET")
 	router.HandleFunc("/api/bitcoins", authHelper.Authenticate(bitcoinController.CreatePurchase)).Methods("POST")
 	router.HandleFunc("/api/bitcoins/sale", authHelper.Authenticate(bitcoinController.CreateSale)).Methods("POST")
 	router.HandleFunc("/api/bitcoins/getbyuser", authHelper.Authenticate(bitcoinController.GetByUser)).Methods("GET")

@@ -30,13 +30,3 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	userRepository.Create(u)
 	jsonResponse.ToJson(w, userJson)
 }
-
-func GetAll(w http.ResponseWriter, r *http.Request) {
-	users := userRepository.GetAll()
-
-	usersJson, err := json.Marshal(users)
-	if err != nil {
-		panic(err)
-	}
-	jsonResponse.ToJson(w, usersJson)
-}

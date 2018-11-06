@@ -1,0 +1,160 @@
+{
+	"variables": [],
+	"info": {
+		"name": "bitcoinAPI",
+		"_postman_id": "8bac9ec4-9b30-f53e-b693-febeb5e401aa",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "bitcoins",
+			"description": "",
+			"item": [
+				{
+					"name": "Create a bitcoin",
+					"request": {
+						"url": "localhost:3000/api/bitcoins/sale",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"quantity\":2,\n\t\"person_id\": 1\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get by user",
+					"request": {
+						"url": "localhost:3000/api/bitcoins/getbyuser",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjEyMzQ1Njc4IiwidXNlcm5hbWUiOiJtYXRoZXVzIn0.yQEvXE-OPOc-iy8wyHckQ7YVAd_ovGMTNLvmeAWermY",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "getByDay",
+					"request": {
+						"url": {
+							"raw": "localhost:3000/api/bitcoins/getbyday?initialday=20181103&secondday=20181106",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"bitcoins",
+								"getbyday"
+							],
+							"query": [
+								{
+									"key": "initialday",
+									"value": "20181103",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "secondday",
+									"value": "20181106",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjEyMzQ1Njc4IiwidXNlcm5hbWUiOiJtYXRoZXVzIn0.yQEvXE-OPOc-iy8wyHckQ7YVAd_ovGMTNLvmeAWermY",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"description": "",
+			"item": [
+				{
+					"name": "Create user",
+					"request": {
+						"url": "localhost:3000/api/users",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"teste\",\n\t\"password\":\"12345678\",\n\t\"email\":\"teste@email.com\",\n\t\"birthdate\":\"19980122\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authenticate",
+			"description": "",
+			"item": [
+				{
+					"name": "Generate token",
+					"request": {
+						"url": "localhost:3000/authenticate",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\":\"matheus\", \"password\":\"12345678\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

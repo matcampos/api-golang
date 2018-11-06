@@ -12,10 +12,10 @@ import (
 func Create(u userModel.User) userModel.User {
 	db := con.Connect()
 	// insert
-	stmt, err := db.Prepare("INSERT person SET name=?, age=?")
+	stmt, err := db.Prepare("INSERT user SET name=?, email=?, password=?, birthdate=?")
 	e.CheckErr(err)
 
-	res, err := stmt.Exec(u.Name, u.Age)
+	res, err := stmt.Exec(u.Name, u.Email, u.Password, u.Birthdate)
 	e.CheckErr(err)
 
 	id, err := res.LastInsertId()
@@ -25,24 +25,4 @@ func Create(u userModel.User) userModel.User {
 
 	db.Close()
 	return u
-}
-
-func GetAll() []userModel.User {
-	db := con.Connect()
-	// insert
-	rows, err := db.Query("SELECT * FROM person")
-	e.CheckErr(err)
-	i := 0
-	users := []userModel.User{}
-	for rows.Next() {
-		i++
-		user := userModel.User{}
-		err = rows.Scan(&user.Id, &user.Name, &user.Age)
-		e.CheckErr(err)
-
-		println(user.Name)
-		users = append(users, user)
-	}
-	db.Close()
-	return users
 }
