@@ -38,3 +38,14 @@ func ToError(w http.ResponseWriter, errorStack error, status int) {
 
 	json.NewEncoder(w).Encode(errors)
 }
+
+func CustomError(w http.ResponseWriter, errorM errorModel.Error, status int) {
+	w.Header().Set("Content-Type", "application/json")
+	if status != 0 {
+		w.WriteHeader(status)
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+
+	json.NewEncoder(w).Encode(errorM)
+}
