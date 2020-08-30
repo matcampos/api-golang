@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"os"
 )
 
 type Bitcoin struct {
@@ -23,7 +24,7 @@ type CoutryPrice struct {
 
 func DecodeData() (float64, error) {
 
-	response, err := http.Get("https://api.coindesk.com/v1/bpi/currentprice/BRL.json")
+	response, err := http.Get(os.Getenv("BITCOIN_API_ENDPOINT"))
 	if err != nil {
 		return 0, err
 	}

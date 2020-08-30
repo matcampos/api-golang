@@ -6,17 +6,15 @@ import (
 	"net/http"
 	"strings"
 
+	errorModel "../../models/error"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/context"
 )
 
-type Exception struct {
-	Message string `json:"message"`
-}
-
 func Authenticate(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		authorizationHeader := req.Header.Get("authorization")
+		w.Header().Set("Content-Type", "application/json")
 		if authorizationHeader != "" {
 			bearerToken := strings.Split(authorizationHeader, " ")
 			if len(bearerToken) == 2 {
@@ -27,18 +25,21 @@ func Authenticate(next http.HandlerFunc) http.HandlerFunc {
 					return []byte("secret"), nil
 				})
 				if error != nil {
-					json.NewEncoder(w).Encode(Exception{Message: error.Error()})
+					messages := []errorModel.Message{errorModel.Message{Pt: error.Error(), En: error.Error()}}
+					json.NewEncoder(w).Encode(errorModel.Error{Code: 1, Messages: messages})
 					return
 				}
 				if token.Valid {
 					context.Set(req, "decoded", token.Claims)
 					next(w, req)
 				} else {
-					json.NewEncoder(w).Encode(Exception{Message: "Invalid authorization token"})
+					messages := []errorModel.Message{errorModel.Message{Pt: "Token de autorização inválido", En: "Invalid authorization token"}}
+					json.NewEncoder(w).Encode(errorModel.Error{Code: 1, Messages: messages})
 				}
 			}
 		} else {
-			json.NewEncoder(w).Encode(Exception{Message: "An authorization header is required"})
+			messages := []errorModel.Message{errorModel.Message{Pt: "O header de autorização é obrigatório", En: "An authorization header is required"}}
+			json.NewEncoder(w).Encode(errorModel.Error{Code: 2, Messages: messages})
 		}
 	})
 }
