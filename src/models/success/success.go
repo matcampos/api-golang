@@ -1,5 +1,5 @@
 package successModel
 
 type Success struct {
-	Success bool
+	Success bool `json:"success"`
 }

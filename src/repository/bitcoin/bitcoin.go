@@ -4,41 +4,55 @@ import (
 	"fmt"
 
 	con "../../config/db"
-	e "../../helpers/error"
-	"../../models/bitcoin"
-	_ "github.com/go-sql-driver/mysql"
+	bitcoinModel "../../models/bitcoin"
 )
 
-func Create(b bitcoinModel.Bitcoin) bitcoinModel.Bitcoin {
+func Create(b bitcoinModel.Bitcoin) error {
 	db := con.Connect()
 	// insert
 	stmt, err := db.Prepare("INSERT bitcoin SET quantity=?, total=?, type=?, person_id=?")
-	e.CheckErr(err)
+
+	if err != nil {
+		return err
+	}
 
 	res, err := stmt.Exec(b.Quantity, b.Total, b.Type, b.Person_id)
-	e.CheckErr(err)
+
+	if err != nil {
+		return err
+	}
 
 	id, err := res.LastInsertId()
-	e.CheckErr(err)
+
+	if err != nil {
+		return err
+	}
 
 	fmt.Println(id)
 
 	db.Close()
-	return b
+	return nil
 }
 
-func GetByUser() []bitcoinModel.BitCoinReportOneArray {
+func GetByUser() ([]bitcoinModel.BitCoinReportOneArray, error) {
 	db := con.Connect()
 	// insert
 	rows, err := db.Query("select b.total, b.quantity, b.person_id, p.name from bitcoin b inner join user p where p.id = b.person_id order by b.person_id")
-	e.CheckErr(err)
+
+	if err != nil {
+		return nil, err
+	}
+
 	i := 0
 	bitcoins := []bitcoinModel.BitCoinReportOne{}
 	for rows.Next() {
 		i++
 		bitcoin := bitcoinModel.BitCoinReportOne{}
 		err = rows.Scan(&bitcoin.Total, &bitcoin.Quantity, &bitcoin.Person_id, &bitcoin.Name)
-		e.CheckErr(err)
+
+		if err != nil {
+			return nil, err
+		}
 
 		bitcoins = append(bitcoins, bitcoin)
 	}
@@ -67,26 +81,36 @@ func GetByUser() []bitcoinModel.BitCoinReportOneArray {
 	}
 
 	db.Close()
-	return bitcoinsArr
+
+	return bitcoinsArr, nil
+
 }
 
-func GetByDay(day1 string, day2 string) []bitcoinModel.BitcoinDateReport {
+func GetByDay(day1 string, day2 string) ([]bitcoinModel.BitcoinDateReport, error) {
 	db := con.Connect()
 
 	var d1 = day1
 
 	var d2 = day2
 	rows, err := db.Query("select * from bitcoin where date between ? and ?", d1, d2)
-	e.CheckErr(err)
+
+	if err != nil {
+		return nil, err
+	}
+
 	i := 0
 	bitcoins := []bitcoinModel.BitcoinDateReport{}
+
 	for rows.Next() {
 		i++
 		bitcoin := bitcoinModel.BitcoinDateReport{}
 		err = rows.Scan(&bitcoin.Id, &bitcoin.Quantity, &bitcoin.Total, &bitcoin.Date, &bitcoin.Type, &bitcoin.Person_id)
-		e.CheckErr(err)
+		if err != nil {
+			return nil, err
+		}
 		bitcoins = append(bitcoins, bitcoin)
 	}
 	db.Close()
-	return bitcoins
+
+	return bitcoins, nil
 }

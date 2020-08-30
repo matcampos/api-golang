@@ -17,18 +17,35 @@ func CreatePurchase(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&b)
 
 	if err != nil {
-		panic(err)
+		jsonResponse.ToError(w, err, 0)
+		return
 	}
-	b.Total = float64(b.Quantity) * apiBitcoin.DecodeData()
+
+	price, err := apiBitcoin.DecodeData()
+
+	if err != nil {
+		jsonResponse.ToError(w, err, 0)
+		return
+	}
+
+	b.Total = float64(b.Quantity) * price
 	b.Type = "Purchase"
 	s := success.Success{}
 	s.Success = true
 	successJson, err := json.Marshal(s)
 
 	if err != nil {
-		panic(err)
+		jsonResponse.ToError(w, err, 0)
+		return
 	}
-	bitcoinRepository.Create(b)
+
+	errorr := bitcoinRepository.Create(b)
+
+	if errorr != nil {
+		jsonResponse.ToError(w, errorr, 0)
+		return
+	}
+
 	jsonResponse.ToJson(w, successJson)
 }
 
@@ -38,28 +55,53 @@ func CreateSale(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&b)
 
 	if err != nil {
-		panic(err)
+		jsonResponse.ToError(w, err, 0)
+		return
 	}
-	b.Total = float64(b.Quantity) * apiBitcoin.DecodeData()
+
+	price, err := apiBitcoin.DecodeData()
+
+	if err != nil {
+		jsonResponse.ToError(w, err, 0)
+		return
+	}
+
+	b.Total = float64(b.Quantity) * price
 	b.Type = "Sale"
 	s := success.Success{}
 	s.Success = true
 	successJson, err := json.Marshal(s)
 
 	if err != nil {
-		panic(err)
+		jsonResponse.ToError(w, err, 0)
+		return
 	}
-	bitcoinRepository.Create(b)
+
+	errorr := bitcoinRepository.Create(b)
+
+	if errorr != nil {
+		jsonResponse.ToError(w, errorr, 0)
+		return
+	}
+
 	jsonResponse.ToJson(w, successJson)
 }
 
 func GetByUser(w http.ResponseWriter, r *http.Request) {
-	bitcoins := bitcoinRepository.GetByUser()
+	bitcoins, err := bitcoinRepository.GetByUser()
+
+	if err != nil {
+		jsonResponse.ToError(w, err, 0)
+		return
+	}
 
 	bitcoinsJson, err := json.Marshal(bitcoins)
+
 	if err != nil {
-		panic(err)
+		jsonResponse.ToError(w, err, 0)
+		return
 	}
+
 	jsonResponse.ToJson(w, bitcoinsJson)
 }
 
@@ -68,11 +110,19 @@ func GetByDay(w http.ResponseWriter, r *http.Request) {
 	firstday := vars.Get("initialday")
 	secondday := vars.Get("secondday")
 
-	bitcoins := bitcoinRepository.GetByDay(firstday, secondday)
+	bitcoins, err := bitcoinRepository.GetByDay(firstday, secondday)
 
-	bitcoinsJson, err := json.Marshal(bitcoins)
 	if err != nil {
-		panic(err)
+		jsonResponse.ToError(w, err, 0)
+		return
 	}
-	jsonResponse.ToJson(w, bitcoinsJson)
+
+	bitcoinsJSON, err := json.Marshal(bitcoins)
+
+	if err != nil {
+		jsonResponse.ToError(w, err, 0)
+		return
+	}
+
+	jsonResponse.ToJson(w, bitcoinsJSON)
 }

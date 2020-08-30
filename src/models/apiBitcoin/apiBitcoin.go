@@ -2,43 +2,40 @@ package apiBitcoin
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
 )
 
 type Bitcoin struct {
-	Data Data `json:"data"`
+	BPI BPI `json:"bpi"`
 }
 
-type Data struct {
-	Quotes Quotes `json:"quotes"`
+type BPI struct {
+	USD CoutryPrice `json:"USD"`
+	BRL CoutryPrice `json:"BRL"`
 }
-type Quotes struct {
-	BRL Price `json:"BRL"`
+type CoutryPrice struct {
+	Code        string  `json:"code"`
+	Rate        string  `json:"rate"`
+	Description string  `json:"description"`
+	Rate_float  float64 `json:"rate_float"`
 }
 
-type Price struct {
-	Price float64 `json:"price"`
-}
+func DecodeData() (float64, error) {
 
-func DecodeData() float64 {
-
-	response, err := http.Get("https://api.coinmarketcap.com/v2/ticker/1/?convert=BRL")
+	response, err := http.Get("https://api.coindesk.com/v1/bpi/currentprice/BRL.json")
 	if err != nil {
-		panic(err)
-		os.Exit(1)
+		return 0, err
 	}
+
 	defer response.Body.Close()
 	contents, err := ioutil.ReadAll(response.Body)
+
 	if err != nil {
-		fmt.Printf("%s", err)
-		os.Exit(1)
+		return 0, err
 	}
-	fmt.Printf("%s\n", string(contents))
+
 	var bit Bitcoin
 	json.Unmarshal([]byte(contents), &bit)
-	println(bit.Data.Quotes.BRL.Price)
-	return bit.Data.Quotes.BRL.Price
+	return bit.BPI.BRL.Rate_float, nil
 }

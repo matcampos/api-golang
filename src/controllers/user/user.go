@@ -19,14 +19,23 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&u)
 
 	if err != nil {
-		panic(err)
+		jsonResponse.ToError(w, err, 0)
+		return
 	}
 
-	userJson, err := json.Marshal(u)
+	createdUser, err := userRepository.Create(u)
 
 	if err != nil {
-		panic(err)
+		jsonResponse.ToError(w, err, 0)
+		return
 	}
-	userRepository.Create(u)
+
+	userJson, err := json.Marshal(createdUser)
+
+	if err != nil {
+		jsonResponse.ToError(w, err, 0)
+		return
+	}
+
 	jsonResponse.ToJson(w, userJson)
 }

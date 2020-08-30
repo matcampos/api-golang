@@ -1,5 +1,6 @@
 use bitcoin;
-create table bitcoin(id int primary key not null auto_increment, quantity int not null, total mysql> create table bitcoin(id int primary key not null aut int not null, total double not null, date datetime default now(), type varchar(255), person_id int);
+
+create table bitcoin(id int primary key not null auto_increment, quantity int not null, total double not null, date datetime default now(), type varchar(255), person_id int);
 
 ALTER TABLE `bitcoin`.`bitcoin` 
 ADD INDEX `fk_bitcoin_1_idx` (`person_id` ASC);
