@@ -1,6 +1,10 @@
 package bitcoinModel
 
-import "time"
+import (
+	"time"
+
+	validation "github.com/go-ozzo/ozzo-validation"
+)
 
 type Bitcoin struct {
 	Id            int       `json:"id"`
@@ -11,6 +15,19 @@ type Bitcoin struct {
 	Name          string    `json:"name"`
 	Person_id     int       `json:"person_id"`
 	ValidatedDate string    `json:"validatedDate"`
+}
+
+func (b Bitcoin) ValidateBitcoinStruct() error {
+	return validation.ValidateStruct(&b,
+		// Quantity cannot be empty.
+		validation.Field(&b.Quantity, validation.Required),
+		// Total cannot be empty.
+		validation.Field(&b.Total, validation.Required),
+		// Type cannot be empty.
+		validation.Field(&b.Type, validation.Required),
+		// Person_id cannot be empty.
+		validation.Field(&b.Person_id, validation.Required),
+	)
 }
 
 type BitcoinDateReport struct {

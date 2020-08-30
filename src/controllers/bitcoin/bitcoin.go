@@ -7,6 +7,7 @@ import (
 	jsonResponse "../../helpers/json-response"
 	"../../models/apiBitcoin"
 	bitcoinModel "../../models/bitcoin"
+	errorModel "../../models/error"
 	success "../../models/success"
 	bitcoinRepository "../../repository/bitcoin"
 )
@@ -30,12 +31,21 @@ func CreatePurchase(w http.ResponseWriter, r *http.Request) {
 
 	b.Total = float64(b.Quantity) * price
 	b.Type = "Purchase"
-	s := success.Success{}
-	s.Success = true
+	s := success.Success{Success: true}
 	successJson, err := json.Marshal(s)
 
 	if err != nil {
 		jsonResponse.ToError(w, err, 0)
+		return
+	}
+
+	invalidBitcoin := b.ValidateBitcoinStruct()
+
+	if invalidBitcoin != nil {
+		errorMessage := invalidBitcoin.Error()
+		messages := []errorModel.Message{errorModel.Message{Pt: errorMessage, En: errorMessage}}
+		err := errorModel.Error{Code: http.StatusBadRequest, Messages: messages}
+		jsonResponse.CustomError(w, err, http.StatusBadRequest)
 		return
 	}
 
@@ -74,6 +84,16 @@ func CreateSale(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		jsonResponse.ToError(w, err, 0)
+		return
+	}
+
+	invalidBitcoin := b.ValidateBitcoinStruct()
+
+	if invalidBitcoin != nil {
+		errorMessage := invalidBitcoin.Error()
+		messages := []errorModel.Message{errorModel.Message{Pt: errorMessage, En: errorMessage}}
+		err := errorModel.Error{Code: http.StatusBadRequest, Messages: messages}
+		jsonResponse.CustomError(w, err, http.StatusBadRequest)
 		return
 	}
 

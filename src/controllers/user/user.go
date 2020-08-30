@@ -5,13 +5,10 @@ import (
 	"net/http"
 
 	jsonResponse "../../helpers/json-response"
+	errorModel "../../models/error"
 	userModel "../../models/user"
 	userRepository "../../repository/user"
 )
-
-type Bitcoin struct {
-	Data string `json:"name"`
-}
 
 func Create(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
@@ -20,6 +17,16 @@ func Create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		jsonResponse.ToError(w, err, 0)
+		return
+	}
+
+	invalidUser := u.Validate()
+
+	if invalidUser != nil {
+		errorMessage := invalidUser.Error()
+		messages := []errorModel.Message{errorModel.Message{Pt: errorMessage, En: errorMessage}}
+		err := errorModel.Error{Code: http.StatusBadRequest, Messages: messages}
+		jsonResponse.CustomError(w, err, http.StatusBadRequest)
 		return
 	}
 
