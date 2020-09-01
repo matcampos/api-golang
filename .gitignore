@@ -9,6 +9,8 @@
 *.so
 *.dylib
 .env
+.env-docker
+sql.env
 .DS_Store
 
 # Test binary, built with `go test -c`

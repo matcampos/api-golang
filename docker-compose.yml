@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  api-golang-docker:
+    build: .
+    image: api-golang-docker
+    ports:
+      - "3000:3000"
+    links:
+      - "db:database"
+  db:
+    image: mysql
+    ports:
+      - "3306"
+    expose:
+      - "3306"
+    env_file:
+      - sql.env
+    volumes:
+      - ./sql/setup.sql:/docker-entrypoint-initdb.d/setup.sql

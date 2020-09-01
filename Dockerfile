@@ -2,14 +2,18 @@
 FROM golang:1.14
 
 # Set the Current Working Directory inside the container
-WORKDIR /go/src/api-golang
+WORKDIR $GO_PATH/src/matcampos/api-golang
 
 COPY . .
 
+RUN cp .env-docker .env
+
 RUN go get -d -v ./...
 
-RUN go run main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o main
 
 EXPOSE 3000
 
-CMD ["api-golang"]
+RUN chmod -R 777 main
+
+CMD ["./main"]
