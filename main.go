@@ -6,7 +6,8 @@ import (
 	"net/http"
 	"os"
 
-	"./routes"
+	"api-golang/routes"
+
 	"github.com/joho/godotenv"
 )
 

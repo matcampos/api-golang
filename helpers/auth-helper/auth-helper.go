@@ -1,4 +1,4 @@
-package authHelper
+package authhelper
 
 import (
 	"encoding/json"
@@ -6,7 +6,8 @@ import (
 	"net/http"
 	"strings"
 
-	errorModel "../../models/error"
+	errorModel "api-golang/models/error"
+
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/context"
 )

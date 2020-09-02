@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"os"
 
-	e "../../helpers/error"
+	e "api-golang/helpers/error"
 )
 
 func Connect() *sql.DB {

@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 
-	jsonResponse "../../helpers/json-response"
-	errorModel "../../models/error"
-	userModel "../../models/user"
-	userRepository "../../repository/user"
+	jsonResponse "api-golang/helpers/json-response"
+	errorModel "api-golang/models/error"
+	userModel "api-golang/models/user"
+	userRepository "api-golang/repository/user"
 )
 
 func Create(w http.ResponseWriter, r *http.Request) {

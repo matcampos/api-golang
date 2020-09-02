@@ -1,10 +1,11 @@
 package routes
 
 import (
-	bitcoinController "../controllers/bitcoin"
-	userController "../controllers/user"
-	"../helpers/auth-helper"
-	"../helpers/generate-token"
+	bitcoinController "api-golang/controllers/bitcoin"
+	userController "api-golang/controllers/user"
+	authHelper "api-golang/helpers/auth-helper"
+	generateToken "api-golang/helpers/generate-token"
+
 	"github.com/gorilla/mux"
 )
 

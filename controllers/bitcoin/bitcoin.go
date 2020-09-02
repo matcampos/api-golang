@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
-	jsonResponse "../../helpers/json-response"
-	"../../models/apiBitcoin"
-	bitcoinModel "../../models/bitcoin"
-	errorModel "../../models/error"
-	success "../../models/success"
-	bitcoinRepository "../../repository/bitcoin"
+	jsonResponse "api-golang/helpers/json-response"
+	"api-golang/models/apiBitcoin"
+	bitcoinModel "api-golang/models/bitcoin"
+	errorModel "api-golang/models/error"
+	success "api-golang/models/success"
+	bitcoinRepository "api-golang/repository/bitcoin"
 )
 
 func CreatePurchase(w http.ResponseWriter, r *http.Request) {

@@ -3,8 +3,9 @@ package userRepository
 import (
 	"fmt"
 
-	con "../../config/db"
-	userModel "../../models/user"
+	con "api-golang/config/db"
+	userModel "api-golang/models/user"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 

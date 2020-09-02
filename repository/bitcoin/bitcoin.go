@@ -1,8 +1,9 @@
 package bitcoinRepository
 
 import (
-	con "../../config/db"
-	bitcoinModel "../../models/bitcoin"
+	con "api-golang/config/db"
+
+	bitcoinModel "api-golang/models/bitcoin"
 )
 
 func Create(b bitcoinModel.Bitcoin) error {

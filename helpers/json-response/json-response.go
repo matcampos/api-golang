@@ -4,7 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	errorModel "../../models/error"
+	errorModel "api-golang/models/error"
+
 	"github.com/go-errors/errors"
 	"github.com/go-sql-driver/mysql"
 )
