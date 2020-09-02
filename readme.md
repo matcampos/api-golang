@@ -45,7 +45,7 @@ To build the project execute the following command
     go install
 ```
 
-- to run this build go on terminal and enter: `api-golang`
+- to run this build go on terminal in the root directory of the project and enter: `api-golang`
 
 Another option to build and run the it is the following command:
 
