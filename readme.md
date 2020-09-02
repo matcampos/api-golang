@@ -45,8 +45,9 @@ To build the project execute the following command
     go install
 ```
 
-* to run this build go on terminal and enter: `api-golang`
-or execute
+- to run this build go on terminal and enter: `api-golang`
+
+Another option to build and run the it is the following command:
 
 ``` 
     go build main.go && ./main.go
@@ -68,7 +69,7 @@ To build the and run the project with docker you must configure the docker.env f
 * [godotenv](https://github.com/joho/godotenv) - Library to use .env files and set the environment variable on golang.
 * [jwt-go](https://github.com/dgrijalva/jwt-go) - Library to use jwt token on golang api.
 * [ozzo-validation](https://github.com/go-ozzo/ozzo-validation) - Library to validate structs properties.
-* [gorilla/mux] - (https://github.com/gorilla/mux) - Library to create api endpoints on golang.
+* [gorilla/mux](https://github.com/gorilla/mux) - Library to create api endpoints on golang.
 
 ## Authors
 
