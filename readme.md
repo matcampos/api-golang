@@ -1,14 +1,75 @@
-#Dependencies:
-# 1) go get github.com/go-sql-driver/mysql
+# GOLANG API
 
-# 2) go get github.com/dgrijalva/jwt-go
+## ARCHITECTURE INFORMATIONS OF THE PROJECT
 
-# 3) go get github.com/gorilla/context
+* Root directory /
 
-# 4) go get github.com/gorilla/mux
+### Pre-requisites
 
-# 5) create database from sql files in ./sql
+* Have goolang installed and configured on your machine.
+* Have an IDE with support to Go programming language.
 
-# 6) the postman collection export is located in ./postman_routes
+``` 
+    git clone https://github.com/matcampos/api-golang.git
+```
 
-# run api: go run main.go
+### Environments
+
+before you run the project you need to configure the environment variable files.
+
+Are them:
+
+* .env - The .env.sample file shows all fields which this file need.
+* docker.env - The same content of .env-sample file but with your docker container configurations, and DATABASE_HOST env value must be "database".
+* sql.env - The sql.env.sample file shows all fields which this file need.
+
+### Instalation
+
+Execute the following command to install all dependencies of the project.
+
+``` 
+go get -d -v ./...
+```
+
+To execute the project on your local machine run the following command on root directory of the project:
+
+``` 
+go run main.go
+```
+
+### Build
+
+To build the project execute the following command
+
+``` 
+    go install
+```
+
+* to run this build go on terminal and enter: `api-golang`
+or execute
+
+``` 
+    go build main.go && ./main.go
+```
+
+### Build and run with docker
+
+To build the and run the project with docker you must configure the docker.env file, then you run the following command on root directory of the project.
+
+``` 
+    docker-compose up -d
+```
+
+## Built with
+
+* [go1.15 darwin/amd64](https://golang.org/dl/) - Golang framework and go language download link.
+* [errors](https://github.com/go-errors/errors) - Library to get the stackTrace of any error on go.
+* [my-sql](https://github.com/go-sql-driver/mysql) - Library to use mysql database on golang.
+* [godotenv](https://github.com/joho/godotenv) - Library to use .env files and set the environment variable on golang.
+* [jwt-go](https://github.com/dgrijalva/jwt-go) - Library to use jwt token on golang api.
+* [ozzo-validation](https://github.com/go-ozzo/ozzo-validation) - Library to validate structs properties.
+* [gorilla/mux] - (https://github.com/gorilla/mux) - Library to create api endpoints on golang.
+
+## Authors
+
+* **Matheus Campos** - *Full-Stack Developer* - [Github](https://github.com/matcampos)
