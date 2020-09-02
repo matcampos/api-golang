@@ -2,6 +2,7 @@ package jsonResponse
 
 import (
 	"encoding/json"
+	"net"
 	"net/http"
 
 	errorModel "api-golang/models/error"
@@ -18,15 +19,24 @@ func ToJson(w http.ResponseWriter, json []byte) {
 
 func ToError(w http.ResponseWriter, errorStack error, status int) {
 	w.Header().Set("Content-Type", "application/json")
+
 	if status != 0 {
 		w.WriteHeader(status)
 	} else {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 
+	if err, ok := errorStack.(net.Error); ok {
+		messages := []errorModel.Message{errorModel.Message{Pt: err.Error(), En: err.Error()}}
+		errors := errorModel.Error{Code: http.StatusInternalServerError, Messages: messages}
+		json.NewEncoder(w).Encode(errors)
+		return
+	}
+
 	/*
 		Errors treatment
 	*/
+
 	if err, ok := errorStack.(*mysql.MySQLError); ok {
 		messages := []errorModel.Message{errorModel.Message{Pt: err.Message, En: err.Message}}
 		errors := errorModel.Error{Code: http.StatusInternalServerError, Messages: messages}

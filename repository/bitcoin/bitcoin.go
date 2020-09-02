@@ -7,17 +7,22 @@ import (
 )
 
 func Create(b bitcoinModel.Bitcoin) error {
-	db := con.Connect()
-	// insert
+	db, err := con.Connect()
+	if err != nil {
+		return err
+	}
+
 	stmt, err := db.Prepare("INSERT bitcoin SET quantity=?, total=?, type=?, person_id=?")
 
 	if err != nil {
+		db.Close()
 		return err
 	}
 
 	_, err = stmt.Exec(b.Quantity, b.Total, b.Type, b.Person_id)
 
 	if err != nil {
+		db.Close()
 		return err
 	}
 
@@ -26,11 +31,15 @@ func Create(b bitcoinModel.Bitcoin) error {
 }
 
 func GetByUser() ([]bitcoinModel.BitCoinReportOneArray, error) {
-	db := con.Connect()
-	// insert
+	db, err := con.Connect()
+	if err != nil {
+		return nil, err
+	}
+
 	rows, err := db.Query("select b.total, b.quantity, b.person_id, p.name from bitcoin b inner join user p where p.id = b.person_id order by b.person_id")
 
 	if err != nil {
+		db.Close()
 		return nil, err
 	}
 
@@ -42,6 +51,7 @@ func GetByUser() ([]bitcoinModel.BitCoinReportOneArray, error) {
 		err = rows.Scan(&bitcoin.Total, &bitcoin.Quantity, &bitcoin.Person_id, &bitcoin.Name)
 
 		if err != nil {
+			db.Close()
 			return nil, err
 		}
 
@@ -78,7 +88,10 @@ func GetByUser() ([]bitcoinModel.BitCoinReportOneArray, error) {
 }
 
 func GetByDay(day1 string, day2 string) ([]bitcoinModel.BitcoinDateReport, error) {
-	db := con.Connect()
+	db, err := con.Connect()
+	if err != nil {
+		return nil, err
+	}
 
 	var d1 = day1
 
@@ -86,6 +99,7 @@ func GetByDay(day1 string, day2 string) ([]bitcoinModel.BitcoinDateReport, error
 	rows, err := db.Query("select * from bitcoin where date between ? and ?", d1, d2)
 
 	if err != nil {
+		db.Close()
 		return nil, err
 	}
 
