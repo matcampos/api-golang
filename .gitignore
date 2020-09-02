@@ -9,7 +9,7 @@
 *.so
 *.dylib
 .env
-.env-docker
+docker.env
 sql.env
 .DS_Store
 

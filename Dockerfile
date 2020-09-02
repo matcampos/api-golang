@@ -6,7 +6,7 @@ WORKDIR /go/src/api-golang
 
 ADD . /go/src/api-golang
 
-RUN cp .env-docker .env
+RUN cp docker.env .env
 
 RUN go get -d -v ./...
 
