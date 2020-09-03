@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 
 	errorModel "api-golang/models/error"
@@ -23,7 +24,7 @@ func Authenticate(next http.HandlerFunc) http.HandlerFunc {
 					if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 						return nil, fmt.Errorf("There was an error")
 					}
-					return []byte("secret"), nil
+					return []byte(os.Getenv("API_SECRET")), nil
 				})
 				if error != nil {
 					w.WriteHeader(http.StatusBadRequest)

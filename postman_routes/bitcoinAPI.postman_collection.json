@@ -120,7 +120,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\":\"teste\",\n\t\"password\":\"12345678\",\n\t\"email\":\"teste@email.com\",\n\t\"birthdate\":\"1998-01-22\"\n}"
+							"raw": "{\n\t\"name\":\"teste\",\n\t\"password\":\"12345678\",\n\t\"email\":\"teste@email.com\",\n\t\"birthdate\":\"2012-12-12\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/users",
@@ -143,6 +143,19 @@
 			"item": [
 				{
 					"name": "Generate token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "685541bd-dfbf-4185-bdc0-ab76e86cbb62",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -153,7 +166,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\":\"matheus\", \"password\":\"12345678\"}"
+							"raw": "{\"email\":\"teste@email.com\", \"password\":\"12345678\"}"
 						},
 						"url": {
 							"raw": "localhost:3000/authenticate",

@@ -8,6 +8,8 @@ import (
 	errorModel "api-golang/models/error"
 	userModel "api-golang/models/user"
 	userRepository "api-golang/repository/user"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 func Create(w http.ResponseWriter, r *http.Request) {
@@ -29,6 +31,10 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		jsonResponse.CustomError(w, err, http.StatusBadRequest)
 		return
 	}
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(u.Password), 5)
+
+	u.Password = string(hash)
 
 	createdUser, err := userRepository.Create(u)
 
