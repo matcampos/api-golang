@@ -3,7 +3,7 @@ package errorModel
 type Error struct {
 	Code     int       `json:"code"`
 	Messages []Message `json:"messages"`
-	Field    string    `json:"field"`
+	Field    string    `json:"field,omitempty"`
 }
 
 type Message struct {

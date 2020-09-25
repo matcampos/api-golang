@@ -34,6 +34,11 @@ func Create(w http.ResponseWriter, r *http.Request) {
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(u.Password), 5)
 
+	if err != nil {
+		jsonResponse.ToError(w, err, 0)
+		return
+	}
+
 	u.Password = string(hash)
 
 	createdUser, err := userRepository.Create(u)

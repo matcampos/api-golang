@@ -28,13 +28,13 @@ Are them:
 Execute the following command to install all dependencies of the project.
 
 ``` 
-go get -d -v ./...
+    go get -d -v ./...
 ```
 
 To execute the project on your local machine run the following command on root directory of the project:
 
 ``` 
-go run main.go
+    go run main.go
 ```
 
 ### Build
