@@ -100,6 +100,6 @@ func CreateToken(w http.ResponseWriter, req *http.Request) {
 
 		jsonResponse.ToJson(w, response)
 	default:
-		panic(err)
+		jsonResponse.ToError(w, err, 0)
 	}
 }
