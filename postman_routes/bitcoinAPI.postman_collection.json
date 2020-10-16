@@ -169,11 +169,10 @@
 							"raw": "{\"email\":\"teste@email.com\", \"password\":\"12345678\"}"
 						},
 						"url": {
-							"raw": "localhost:3000/authenticate",
+							"raw": "{{host}}/authenticate",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "3000",
 							"path": [
 								"authenticate"
 							]
